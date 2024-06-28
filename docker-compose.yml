@@ -1,0 +1,28 @@
+version: '3' 
+services:
+  www:
+    image: php:apache
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - "./:/var/www/html"
+    ports:
+      - 80:80
+      - 443:443
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=mydatabase
+      - MYSQL_USER=my
+      - MYSQL_PASSWORD=31072003
+      - MYSQL_ALLOW_EMPTY_PASSWORD=1
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8001:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
